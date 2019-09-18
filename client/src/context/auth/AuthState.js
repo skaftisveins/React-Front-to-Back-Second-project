@@ -1,14 +1,7 @@
-import React, { useReducer } from "react";
-import AuthContext from "./authContext";
-import authReducer from "./authReducer";
+import React, { useReducer } from 'react';
+import AuthContext from './authContext';
+import authReducer from './authReducer';
 import {
-  ADD_CONTACT,
-  DELETE_CONTACT,
-  SET_CURRENT,
-  CLEAR_CURRENT,
-  UPDATE_CONTACT,
-  FILTER_CONTACTS,
-  CLEAR_FILTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
@@ -17,11 +10,11 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS
-} from "../types";
+} from '../types';
 
 const AuthState = props => {
   const initialState = {
-    token: localStorage.getItem("token"),
+    token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
     user: null,
