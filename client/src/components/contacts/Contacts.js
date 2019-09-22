@@ -1,31 +1,51 @@
-import React, { Fragment, useContext } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
-import ContactItem from "./ContactItem";
-import ContactContext from "../../context/contact/contactContext";
+import React, { Fragment, useContext, useEffect } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Spinner from '../layout/Spinner';
+import ContactItem from './ContactItem';
+import ContactContext from '../../context/contact/contactContext';
 
 const Contacts = () => {
   const contactContext = useContext(ContactContext);
-  const { contacts, filter } = contactContext;
 
-  if (contacts.length === 0) {
+  const { contacts, filter, getContacts, loading } = contactContext;
+
+  useEffect(() => {
+    getContacts();
+
+    //eslint-disable-next-line
+  }, []);
+
+  if (contacts !== null && contacts.length === 0 && !loading) {
     return <h4>Please add a contact</h4>;
   }
 
   return (
     <Fragment>
-      <TransitionGroup>
-        {filter !== null
-          ? filter.map(contact => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
-                <ContactItem contact={contact} />
-              </CSSTransition>
-            ))
-          : contacts.map(contact => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
-                <ContactItem key={contact.id} contact={contact} />
-              </CSSTransition>
-            ))}
-      </TransitionGroup>
+      {contacts !== null && !loading ? (
+        <TransitionGroup>
+          {filter !== null
+            ? filter.map(contact => (
+                <CSSTransition
+                  key={contact._id}
+                  timeout={500}
+                  classNames='item'
+                >
+                  <ContactItem contact={contact} />
+                </CSSTransition>
+              ))
+            : contacts.map(contact => (
+                <CSSTransition
+                  key={contact._id}
+                  timeout={500}
+                  classNames='item'
+                >
+                  <ContactItem contact={contact} />
+                </CSSTransition>
+              ))}
+        </TransitionGroup>
+      ) : (
+        <Spinner />
+      )}
     </Fragment>
   );
 };
